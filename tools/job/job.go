@@ -54,6 +54,8 @@ func (j *Job) Start(ctx context.Context) {
 						}
 					}()
 				}()
+			case <-j.stop:
+				break
 			}
 		}
 	}()
