@@ -6,6 +6,8 @@ import (
 	"blockchain-parser/internal/entity"
 )
 
+//go:generate mockgen -source=./parser_dependency.go -destination=./mocks/mock.go -package=mocks
+
 type TransactionRepository interface {
 	GetTxnsByAddress(ctx context.Context, address string) ([]entity.Transaction, error)
 	Save(_ context.Context, transaction entity.Transaction) error

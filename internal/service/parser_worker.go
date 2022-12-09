@@ -80,13 +80,6 @@ func (w *ParserWorker) processBlock(ctx context.Context, block entity.Block) err
 				return fmt.Errorf("fail save trasaction in ParserWorker: %w", err)
 			}
 		}
-
-		if toOk {
-			log.Printf("notify user (%s)", txn.To)
-		}
-		if fromOk {
-			log.Printf("notify user (%s)", txn.From)
-		}
 	}
 
 	return nil
@@ -103,7 +96,7 @@ func (w *ParserWorker) getProcessingBlock(ctx context.Context, blockNumber int) 
 			return entity.Block{}, fmt.Errorf("fail get last block in getProcessingBlock: %w", err)
 		}
 
-		if lastBlock.Number == blockNumber && lastBlock.Status == constant.BlockStatusProcessing {
+		if lastBlock.Number == blockNumber {
 			return entity.Block{}, fmt.Errorf("no block for parsing: %w", errorpkg.NoBlockForParsing)
 		}
 

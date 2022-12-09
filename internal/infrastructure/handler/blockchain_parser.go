@@ -6,17 +6,17 @@ import (
 	"net/http"
 )
 
-type BlockChanParser struct {
+type BlockChainParser struct {
 	parser Parser
 }
 
-func NewBlockChanParser(parser Parser) *BlockChanParser {
-	return &BlockChanParser{
+func NewBlockChainParser(parser Parser) *BlockChainParser {
+	return &BlockChainParser{
 		parser: parser,
 	}
 }
 
-func (h *BlockChanParser) GetCurrentBlock(w http.ResponseWriter, _ *http.Request) {
+func (h *BlockChainParser) GetCurrentBlock(w http.ResponseWriter, _ *http.Request) {
 	blockNumber := h.parser.GetCurrentBlock()
 	if blockNumber == 0 {
 		resp := ErrorResponse{
@@ -37,7 +37,7 @@ func (h *BlockChanParser) GetCurrentBlock(w http.ResponseWriter, _ *http.Request
 	_ = json.NewEncoder(w).Encode(resp)
 }
 
-func (h *BlockChanParser) Subscribe(w http.ResponseWriter, r *http.Request) {
+func (h *BlockChainParser) Subscribe(w http.ResponseWriter, r *http.Request) {
 	blockChainParserSubscribe := BlockChainParserSubscribe{}
 	if err := json.NewDecoder(r.Body).Decode(&blockChainParserSubscribe); err != nil {
 		resp := ErrorResponse{
@@ -64,7 +64,7 @@ func (h *BlockChanParser) Subscribe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func (h *BlockChanParser) GetTransactions(w http.ResponseWriter, r *http.Request) {
+func (h *BlockChainParser) GetTransactions(w http.ResponseWriter, r *http.Request) {
 	address := r.URL.Query().Get("address")
 	if address == "" {
 		resp := ErrorResponse{

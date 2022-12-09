@@ -58,12 +58,12 @@ func (s *Server) Configure() {
 	// handlers
 	//-------------------
 
-	blockChanParserHandler := handler.NewBlockChanParser(parser)
+	BlockChainParserHandler := handler.NewBlockChainParser(parser)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc(blockChainParserGetBlockNumberPath, blockChanParserHandler.GetCurrentBlock)
-	mux.HandleFunc(blockChainParserSubscribePath, blockChanParserHandler.Subscribe)
-	mux.HandleFunc(blockChainParserGetTransaction, blockChanParserHandler.GetTransactions)
+	mux.HandleFunc(blockChainParserGetBlockNumberPath, BlockChainParserHandler.GetCurrentBlock)
+	mux.HandleFunc(blockChainParserSubscribePath, BlockChainParserHandler.Subscribe)
+	mux.HandleFunc(blockChainParserGetTransaction, BlockChainParserHandler.GetTransactions)
 
 	//-------------------
 	// setup server
