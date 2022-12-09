@@ -28,15 +28,12 @@ func panicRecoveryMiddleware(next http.Handler) http.Handler {
 
 func methodCheckMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		if _, ok := routes[req.Method]; !ok {
-			w.WriteHeader(http.StatusMethodNotAllowed)
+		if _, ok := routes[req.URL.Path]; ok {
+			if _, ok := routes[req.URL.Path][req.Method]; !ok {
+				w.WriteHeader(http.StatusMethodNotAllowed)
 
-			return
-		}
-		if _, ok := routes[req.Method][req.URL.Path]; !ok {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-
-			return
+				return
+			}
 		}
 
 		next.ServeHTTP(w, req)

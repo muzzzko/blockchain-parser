@@ -42,20 +42,30 @@ func (w *ParserWorker) Run(ctx context.Context) error {
 		return fmt.Errorf("fail get block number in ParserWorker: %w", err)
 	}
 
-	block, err := w.getProcessingBlock(ctx, blockNumber)
-	if err != nil {
-		return err
+	countParsedBlocks := 0
+	defer func() {
+		log.Printf("count parsed blocks: %d", countParsedBlocks)
+	}()
+
+	for {
+		block, err := w.getProcessingBlock(ctx, blockNumber)
+		if errors.Is(err, errorpkg.NoBlockForParsing) {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+
+		if err := w.processBlock(ctx, block); err != nil {
+			w.failBlockProcessing(ctx, block)
+
+			return err
+		}
+
+		w.markBlockAsParsed(ctx, block)
+
+		countParsedBlocks++
 	}
-
-	if err := w.processBlock(ctx, block); err != nil {
-		w.failBlockProcessing(ctx, block)
-
-		return err
-	}
-
-	w.markBlockAsParsed(ctx, block)
-
-	return nil
 }
 
 func (w *ParserWorker) processBlock(ctx context.Context, block entity.Block) error {

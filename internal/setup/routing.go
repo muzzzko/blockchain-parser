@@ -10,12 +10,14 @@ const (
 
 var (
 	routes = map[string]map[string]struct{}{
-		http.MethodGet: {
-			blockChainParserGetBlockNumberPath: struct{}{},
-			blockChainParserGetTransaction:     struct{}{},
+		blockChainParserGetBlockNumberPath: {
+			http.MethodGet: struct{}{},
 		},
-		http.MethodPost: {
-			blockChainParserSubscribePath: struct{}{},
+		blockChainParserGetTransaction: {
+			http.MethodGet: struct{}{},
+		},
+		blockChainParserSubscribePath: {
+			http.MethodPost: struct{}{},
 		},
 	}
 )

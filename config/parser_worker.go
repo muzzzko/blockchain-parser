@@ -4,13 +4,15 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
 type ParserWorker struct {
-	CountWorkers     int
-	Interval         time.Duration
-	StartBlockNumber int64
+	CountWorkers        int
+	Interval            time.Duration
+	StartBlockNumber    int64
+	PredefinedAddresses []string
 }
 
 func parseParserWorker() ParserWorker {
@@ -46,6 +48,11 @@ func parseParserWorker() ParserWorker {
 		}
 	} else {
 		parserWorkerCfg.StartBlockNumber = -1
+	}
+
+	parserWorkerCfgPredefinedAddress, ok := os.LookupEnv("BLOCKCHAIN_PARSER_PARSER_WORKER_PREDEFINED_ADDRESSES")
+	if ok {
+		parserWorkerCfg.PredefinedAddresses = strings.Split(parserWorkerCfgPredefinedAddress, ",")
 	}
 
 	return parserWorkerCfg

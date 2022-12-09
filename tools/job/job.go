@@ -49,9 +49,13 @@ func (j *Job) Start(ctx context.Context) {
 							log.Println("stacktrace from panic: \n" + string(debug.Stack()))
 						}
 
+						log.Printf("run %s", j.name)
+
 						if err := j.run(ctx); err != nil {
 							log.Printf("fail run job %s: %s", j.name, err)
 						}
+
+						log.Printf("finish %s", j.name)
 					}()
 				}()
 			case <-j.stop:

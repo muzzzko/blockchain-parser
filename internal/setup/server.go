@@ -97,6 +97,7 @@ func (s *Server) Configure() {
 	//-------------------
 
 	setupStartBlockNumber(ethereumClient, blockRepo, cfg.ParserWorker)
+	subscribePredefinedAddress(subscriberRepo, cfg.ParserWorker)
 
 	s.createJobs(cfg, parserWorker)
 }
@@ -148,5 +149,16 @@ func setupStartBlockNumber(
 
 	if err := blockRepo.Upsert(context.Background(), block); err != nil {
 		log.Fatalf("fail save block: %s", err)
+	}
+}
+
+func subscribePredefinedAddress(subscriberRepo *repository.InMemSubscriber, cfg config.ParserWorker) {
+	for _, address := range cfg.PredefinedAddresses {
+		subscriber := entity.Subscriber{
+			Address: address,
+		}
+		if err := subscriberRepo.Save(context.Background(), subscriber); err != nil {
+			log.Fatalf("fail subscribe predefined address: %s", err)
+		}
 	}
 }

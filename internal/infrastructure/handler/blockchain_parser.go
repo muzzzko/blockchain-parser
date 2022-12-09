@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -60,6 +61,8 @@ func (h *BlockChainParser) Subscribe(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+
+	log.Printf("address %s was subscribed", blockChainParserSubscribe.Address)
 
 	w.WriteHeader(http.StatusNoContent)
 }

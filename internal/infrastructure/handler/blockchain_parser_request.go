@@ -1,5 +1,5 @@
 package handler
 
 type BlockChainParserSubscribe struct {
-	Address string `json:"subscribe"`
+	Address string `json:"address"`
 }

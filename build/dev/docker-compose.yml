@@ -1,0 +1,7 @@
+services:
+  user-manager:
+    image: blockchain-parser:latest
+    env_file:
+      .env
+    ports:
+      - 8000:8000
