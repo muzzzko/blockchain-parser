@@ -39,3 +39,14 @@ run-test-in-docker:
 
 mocks:
 	go generate ./...
+
+#----------------
+# generate docs
+#----------------
+
+docs:
+	docker run --rm -it -p 8001:8001 --user $(shell id -u):$(shell id -g) -e GOPATH=$(shell go env GOPATH):/go -v $(PWD):$(PWD) -w $(PWD) quay.io/goswagger/swagger:v0.30.3 serve \
+		-p 8001 \
+		--host=0.0.0.0 \
+		--no-open \
+		./api/swagger.yml

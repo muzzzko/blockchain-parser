@@ -33,6 +33,14 @@ to stop server
 make stop-in-docker
 ```
 
+## Run docs
+
+```
+make docs
+```
+
+Documentation will be available at http://localhost:8001
+
 ## Run tests
 
 ```

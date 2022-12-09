@@ -7,9 +7,9 @@ type blockChainParserGetCurrentBlockResponse struct {
 }
 
 type blockChainParserGetTransactionsTransactions struct {
-	From  string
-	To    string
-	Value string
+	From  string `json:"from"`
+	To    string `json:"to"`
+	Value string `json:"value"`
 }
 
 type blockChainParserGetTransactionsResponse struct {

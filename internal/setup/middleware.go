@@ -1,9 +1,12 @@
 package setup
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"runtime/debug"
+
+	"blockchain-parser/internal/infrastructure/handler"
 )
 
 func contentTypeMiddleware(next http.Handler) http.Handler {
@@ -19,6 +22,13 @@ func panicRecoveryMiddleware(next http.Handler) http.Handler {
 		defer func() {
 			if r := recover(); r != nil {
 				log.Println("stacktrace from panic: \n" + string(debug.Stack()))
+
+				resp := handler.ErrorResponse{
+					Message: "internal server error",
+				}
+
+				w.WriteHeader(http.StatusInternalServerError)
+				_ = json.NewEncoder(w).Encode(resp)
 			}
 		}()
 
