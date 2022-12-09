@@ -17,7 +17,7 @@ build-service-image:
 		-f ./build/Dockerfile .
 
 #----------------
-# running service
+# run service
 #----------------
 
 run-in-docker:
@@ -25,3 +25,17 @@ run-in-docker:
 
 stop-in-docker:
 	docker-compose -f ./build/dev/docker-compose.yml stop
+
+#----------------
+# run tests
+#----------------
+
+run-test-in-docker:
+	docker run -it -v $(PWD):$(PWD) -w $(PWD) golang:1.19 go test ./...
+
+#----------------
+# generate mocks
+#----------------
+
+mocks:
+	go generate ./...
