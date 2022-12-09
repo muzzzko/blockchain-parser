@@ -28,6 +28,8 @@ make build-service-image
 make run-in-docker
 ```
 
+Server will be available at http://localhost:8000/
+
 to stop server 
 ```
 make stop-in-docker

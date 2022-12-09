@@ -17,7 +17,9 @@ type blockChainParserGetTransactionsResponse struct {
 }
 
 func mapTransactionsToGetTransactionsResponse(txns []entity.Transaction) blockChainParserGetTransactionsResponse {
-	resp := blockChainParserGetTransactionsResponse{}
+	resp := blockChainParserGetTransactionsResponse{
+		Transactions: make([]blockChainParserGetTransactionsTransactions, len(txns)),
+	}
 
 	for _, txn := range txns {
 		resp.Transactions = append(resp.Transactions, blockChainParserGetTransactionsTransactions{
